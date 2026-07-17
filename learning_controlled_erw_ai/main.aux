@@ -14,41 +14,64 @@
 \citation{dedecker2023rates}
 \citation{aguech2024clt}
 \citation{aguech2024delays}
+\citation{laulin2022reinforced,randommemory2025}
+\citation{janson2004urns,janson2005triangular,pemantle2007survey,laruelle2013urns}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Related Literature}{2}{section.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Position of the LC-ERW relative to common ERW variants.}}{2}{table.1}\protected@file@percent }
-\newlabel{tab:novelty}{{1}{2}{Position of the LC-ERW relative to common ERW variants}{table.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}The Learning-Controlled Model}{2}{section.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Position of the LC-ERW relative to common ERW variants.}}{3}{table.1}\protected@file@percent }
+\newlabel{tab:novelty}{{1}{3}{Position of the LC-ERW relative to common ERW variants}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}The Learning-Controlled Model}{3}{section.3}\protected@file@percent }
 \newlabel{ass:stable}{{1}{3}{Stable diffusive learning}{assumption.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Main Results}{3}{section.4}\protected@file@percent }
-\newlabel{thm:martingale}{{1}{3}{Exact martingale normalisation}{theorem.1}{}}
+\newlabel{ass:critical}{{2}{4}{Stable critical learning}{assumption.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Main Results}{4}{section.4}\protected@file@percent }
+\newlabel{thm:martingale}{{1}{4}{Exact martingale normalisation}{theorem.1}{}}
 \newlabel{lem:product}{{1}{4}{Asymptotics of the normalising product}{lemma.1}{}}
-\newlabel{lem:second}{{2}{4}{Second moment control}{lemma.2}{}}
+\newlabel{lem:second}{{2}{5}{Second moment control}{lemma.2}{}}
 \newlabel{lem:bracket}{{3}{5}{Predictable quadratic variation}{lemma.3}{}}
 \citation{hall1980martingale}
 \newlabel{lem:lindeberg}{{4}{6}{Lindeberg condition}{lemma.4}{}}
-\newlabel{thm:clt}{{2}{6}{Diffusive central limit theorem}{theorem.2}{}}
-\newlabel{cor:ai}{{1}{6}{Stability of convergent learning policies}{corollary.1}{}}
+\citation{ethier1986markov}
+\newlabel{thm:clt}{{2}{7}{Diffusive central limit theorem}{theorem.2}{}}
+\newlabel{thm:fclt}{{3}{7}{Functional invariance principle}{theorem.3}{}}
+\newlabel{thm:critical}{{4}{8}{Critical learned-memory central limit theorem}{theorem.4}{}}
+\newlabel{thm:critical-fclt}{{5}{9}{Critical functional limit}{theorem.5}{}}
+\newlabel{cor:quenched}{{1}{10}{Quenched universality of stable learned memory}{corollary.1}{}}
+\newlabel{cor:ai}{{2}{10}{Stability of convergent learning policies}{corollary.2}{}}
 \citation{kushner2003stochastic}
-\newlabel{prop:damped}{{1}{7}{A damped empirical-drift learner}{proposition.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Examples of Learning Rules}{7}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Deterministic annealing.}{7}{section*.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Online logistic policy.}{7}{section*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Damped empirical-drift learning.}{7}{section*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Stochastic approximation policies.}{7}{section*.4}\protected@file@percent }
+\newlabel{prop:damped}{{1}{11}{Projected online empirical-risk learner}{proposition.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Examples of Learning Rules}{11}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Deterministic annealing.}{11}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Online logistic policy.}{11}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Projected empirical-risk learning.}{11}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Stochastic approximation policies.}{12}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Numerical Experiments}{12}{section.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Monte Carlo diagnostics for \(S_n/\sqrt  n\), \(n=2500\), 800 replications.}}{12}{table.2}\protected@file@percent }
+\newlabel{tab:simulation}{{2}{12}{Monte Carlo diagnostics for \(S_n/\sqrt n\), \(n=2500\), 800 replications}{table.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion}{12}{section.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Empirical variance divided by the theoretical variance across sample sizes.}}{13}{figure.1}\protected@file@percent }
+\newlabel{fig:variance-ratio}{{1}{13}{Empirical variance divided by the theoretical variance across sample sizes}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces QQ-plots for the fixed-memory benchmark and the projected empirical-risk learner.}}{13}{figure.2}\protected@file@percent }
+\newlabel{fig:qqplots}{{2}{13}{QQ-plots for the fixed-memory benchmark and the projected empirical-risk learner}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Histograms of \(S_n/\sqrt  n\) with the predicted Gaussian density overlay.}}{13}{figure.3}\protected@file@percent }
+\newlabel{fig:histograms}{{3}{13}{Histograms of \(S_n/\sqrt n\) with the predicted Gaussian density overlay}{figure.3}{}}
 \bibstyle{apalike}
 \bibdata{references}
 \bibcite{aguech2024delays}{{1}{2024a}{{Aguech}}{{}}}
 \bibcite{aguech2024clt}{{2}{2024b}{{Aguech}}{{}}}
 \bibcite{baur2016elephant}{{3}{2016}{{Baur and Bertoin}}{{}}}
 \bibcite{bercu2018martingale}{{4}{2018}{{Bercu}}{{}}}
-\bibcite{colette2017central}{{5}{2017}{{Coletti et~al.}}{{}}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Numerical Experiments}{8}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion}{8}{section.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{8}{section.8}\protected@file@percent }
-\bibcite{dedecker2023rates}{{6}{2023}{{Dedecker et~al.}}{{}}}
-\bibcite{gut2021variations}{{7}{2021}{{Gut and Stadtm{\"u}ller}}{{}}}
-\bibcite{gut2023review}{{8}{2023}{{Gut and Stadtm{\"u}ller}}{{}}}
-\bibcite{hall1980martingale}{{9}{1980}{{Hall and Heyde}}{{}}}
-\bibcite{kushner2003stochastic}{{10}{2003}{{Kushner and Yin}}{{}}}
-\bibcite{schutz2004elephants}{{11}{2004}{{Sch{\"u}tz and Trimper}}{{}}}
-\gdef \@abspage@last{9}
+\bibcite{randommemory2025}{{5}{2025}{{Busingye and Nteziyaremye}}{{}}}
+\bibcite{colette2017central}{{6}{2017}{{Coletti et~al.}}{{}}}
+\bibcite{dedecker2023rates}{{7}{2023}{{Dedecker et~al.}}{{}}}
+\bibcite{ethier1986markov}{{8}{1986}{{Ethier and Kurtz}}{{}}}
+\bibcite{gut2021variations}{{9}{2021}{{Gut and Stadtm{\"u}ller}}{{}}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{14}{section.8}\protected@file@percent }
+\bibcite{gut2023review}{{10}{2023}{{Gut and Stadtm{\"u}ller}}{{}}}
+\bibcite{hall1980martingale}{{11}{1980}{{Hall and Heyde}}{{}}}
+\bibcite{janson2004urns}{{12}{2004}{{Janson}}{{}}}
+\bibcite{janson2005triangular}{{13}{2005}{{Janson}}{{}}}
+\bibcite{kushner2003stochastic}{{14}{2003}{{Kushner and Yin}}{{}}}
+\bibcite{laruelle2013urns}{{15}{2013}{{Laruelle and Pag{\`e}s}}{{}}}
+\bibcite{laulin2022reinforced}{{16}{2022}{{Laulin}}{{}}}
+\bibcite{pemantle2007survey}{{17}{2007}{{Pemantle}}{{}}}
+\bibcite{schutz2004elephants}{{18}{2004}{{Sch{\"u}tz and Trimper}}{{}}}
+\gdef \@abspage@last{15}

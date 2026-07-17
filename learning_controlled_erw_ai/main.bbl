@@ -23,6 +23,11 @@ Bercu, B. (2018).
 \newblock {\em Journal of Physics A: Mathematical and Theoretical},
   51(1):015201.
 
+\bibitem[Busingye and Nteziyaremye, 2025]{randommemory2025}
+Busingye, D. and Nteziyaremye, V. (2025).
+\newblock On elephant random walk with random memory.
+\newblock {\em arXiv preprint arXiv:2501.12866}.
+
 \bibitem[Coletti et~al., 2017]{colette2017central}
 Coletti, C.~F., Gava, R., and Sch{\"u}tz, G.~M. (2017).
 \newblock Central limit theorem and related results for the elephant random
@@ -34,6 +39,11 @@ Dedecker, J., Fan, X., Hu, H., and Merlev{\`e}de, F. (2023).
 \newblock Rates of convergence in the central limit theorem for the elephant
   random walk with random step sizes.
 \newblock {\em Journal of Statistical Physics}, 190(10):173.
+
+\bibitem[Ethier and Kurtz, 1986]{ethier1986markov}
+Ethier, S.~N. and Kurtz, T.~G. (1986).
+\newblock {\em Markov Processes: Characterization and Convergence}.
+\newblock John Wiley \& Sons, New York.
 
 \bibitem[Gut and Stadtm{\"u}ller, 2021]{gut2021variations}
 Gut, A. and Stadtm{\"u}ller, U. (2021).
@@ -51,11 +61,37 @@ Hall, P. and Heyde, C.~C. (1980).
 \newblock {\em Martingale Limit Theory and Its Application}.
 \newblock Academic Press, New York.
 
+\bibitem[Janson, 2004]{janson2004urns}
+Janson, S. (2004).
+\newblock Functional limit theorems for multitype branching processes and
+  generalized {P}{\'o}lya urns.
+\newblock {\em Stochastic Processes and their Applications}, 110(2):177--245.
+
+\bibitem[Janson, 2005]{janson2005triangular}
+Janson, S. (2005).
+\newblock Limit theorems for triangular urn schemes.
+\newblock {\em Probability Theory and Related Fields}, 134(3):417--452.
+
 \bibitem[Kushner and Yin, 2003]{kushner2003stochastic}
 Kushner, H.~J. and Yin, G.~G. (2003).
 \newblock {\em Stochastic Approximation and Recursive Algorithms and
   Applications}.
 \newblock Springer, New York, 2 edition.
+
+\bibitem[Laruelle and Pag{\`e}s, 2013]{laruelle2013urns}
+Laruelle, S. and Pag{\`e}s, G. (2013).
+\newblock Randomized urn models revisited using stochastic approximation.
+\newblock {\em The Annals of Applied Probability}, 23(4):1409--1436.
+
+\bibitem[Laulin, 2022]{laulin2022reinforced}
+Laulin, L. (2022).
+\newblock New insights on the reinforced elephant random walk.
+\newblock {\em ESAIM: Probability and Statistics}, 26:547--579.
+
+\bibitem[Pemantle, 2007]{pemantle2007survey}
+Pemantle, R. (2007).
+\newblock A survey of random processes with reinforcement.
+\newblock {\em Probability Surveys}, 4:1--79.
 
 \bibitem[Sch{\"u}tz and Trimper, 2004]{schutz2004elephants}
 Sch{\"u}tz, G.~M. and Trimper, S. (2004).

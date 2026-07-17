@@ -62,6 +62,8 @@ make_policy <- function(name) {
     eps <- 0.05
     p_star <- 0.58
     theta_star <- theta_for_p(p_star, eps)
+    theta_lo <- theta_for_p(0.06, eps)
+    theta_hi <- theta_for_p(0.72, eps)
     c <- 0.35
     beta <- 0.50
     rho <- 0.60
@@ -71,8 +73,9 @@ make_policy <- function(name) {
       p_limit = p_star,
       theta0 = theta_star,
       get_p = function(t, S_t, theta) {
-        theta_t <- theta_star + c / (t + 1)^rho + beta * S_t / t^(1 + delta)
-        clip(logistic_link(theta_t, eps), 0.05, 0.72)
+        theta_t <- theta_star + c / (t + 1)^rho - beta * S_t / t^(1 + delta)
+        theta_t <- clip(theta_t, theta_lo, theta_hi)
+        logistic_link(theta_t, eps)
       },
       update = function(t, S_next, theta) theta
     ))
