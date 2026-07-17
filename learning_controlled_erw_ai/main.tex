@@ -1,0 +1,430 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage[authoryear,round]{natbib}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\title{\textbf{A Learning-Controlled Elephant Random Walk:}\\
+Martingale Structure, Diffusive Limits and Reproducible Evidence}
+
+\author{Prepared as a research manuscript}
+\date{\today}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{assumption}{Assumption}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Pbb}{\mathbb{P}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Law}{\mathcal{L}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+The elephant random walk is a non-Markovian stochastic process whose next
+increment is drawn from its complete history and is then repeated or reversed.
+This article introduces a learning-controlled elephant random walk (LC-ERW), in
+which the memory parameter is no longer fixed but is selected online by a
+predictable learning rule. The construction is intended as a mathematically
+tractable bridge between long-memory random walks and artificial-intelligence
+mechanisms for adaptive exploration. The main result is a martingale
+normalisation valid for arbitrary predictable memory policies. Under a stable
+learning condition, namely convergence of the learned memory coefficient to a
+diffusive limit smaller than one half, the LC-ERW satisfies a central limit
+theorem with the same variance form as an elephant random walk with the limiting
+memory coefficient. The proof is based on triangular martingale convergence and
+explicit control of the predictable quadratic variation. Reproducible R
+experiments are provided to check the variance prediction and to illustrate the
+transition from adaptive behaviour to the limiting Gaussian regime.
+\end{abstract}
+
+\noindent\textbf{Keywords:} elephant random walk; artificial intelligence;
+online learning; martingales; central limit theorem; non-Markovian random walk.
+
+\section{Introduction}
+
+Random walks with memory provide simple models in which local moves are affected
+by a long historical record. The elephant random walk (ERW), introduced by
+\citet{schutz2004elephants}, is a canonical example: at each time the walker
+selects one of its past increments and either repeats or reverses it. This
+mechanism generates diffusive, critical and superdiffusive regimes, depending on
+the memory parameter. Subsequent mathematical work has developed central limit
+theorems, martingale methods, urn connections and variants with restricted
+memory, random step sizes and delays \citep{colette2017central,bercu2018martingale,baur2016elephant,gut2021variations,gut2023review,dedecker2023rates,aguech2024clt,aguech2024delays}.
+
+Artificial intelligence (AI), particularly online learning and reinforcement
+learning, is also concerned with sequential decisions under uncertainty. In many
+algorithms, exploration is controlled by a parameter that is updated from the
+past. Yet the usual random-walk component of such methods is often Markovian or
+externally scheduled. This paper studies a complementary question: what happens
+when the memory parameter of an ERW is itself produced by a learning rule?
+
+The contribution is a learning-controlled elephant random walk (LC-ERW). The
+walker has complete elephant memory, but the probability of repeating a recalled
+increment is chosen from the past by an arbitrary predictable learning
+algorithm. This includes deterministic schedules, online estimators, stochastic
+approximation recursions and bounded policy maps. The model is deliberately
+minimal: it is rich enough to represent AI-style adaptation, but constrained
+enough to support rigorous proofs.
+
+The results are as follows. First, for any predictable memory policy, the
+LC-ERW admits an exact martingale normalisation. Secondly, if the learned memory
+coefficient converges fast enough to a diffusive value \(a<1/2\), then the
+normalised position \(S_n/\sqrt{n}\) converges to a centred normal distribution
+with variance \((1-2a)^{-1}\). Thirdly, a corollary gives a direct stability
+condition for online-learning policies: any convergent policy satisfying a mild
+summability condition inherits the diffusive ERW limit theorem. The numerical
+section supplies reproducible R code that checks the predicted variance.
+
+The manuscript is not a claim of peer-reviewed novelty. Rather, it states a
+precise candidate contribution, proves it under transparent assumptions and
+provides scripts that make the quantitative claims testable.
+
+\section{Related Literature}
+
+\citet{schutz2004elephants} introduced the ERW as a solvable non-Markovian
+model with long-range memory. Limit theorems and related asymptotic properties
+were developed by \citet{colette2017central}, while \citet{bercu2018martingale}
+showed that martingale methods give a particularly effective route to strong
+laws, quadratic strong laws, laws of the iterated logarithm and non-Gaussian
+behaviour in the superdiffusive regime.
+
+The connection with urn models was clarified by \citet{baur2016elephant}, and
+extensions have since become an active topic. \citet{gut2021variations} and
+\citet{gut2023review} discuss variants with modified memory mechanisms.
+\citet{dedecker2023rates} study random step sizes and rates of convergence,
+while \citet{aguech2024clt} and \citet{aguech2024delays} examine gradually
+increasing memory, random step sizes and delays. Recent work on trained ERW
+models studies how growing initial conditioning changes return behaviour
+\citep{trained2026erw}. These papers motivate the present study but do not, to
+the best of our knowledge, formulate the memory parameter as the output of a
+general predictable learning rule.
+
+\section{The Learning-Controlled Model}
+
+Let \((\Omega,\F,\Pbb)\) be a probability space with filtration
+\((\F_n)_{n\geq 1}\). The position of the walker after \(n\) steps is
+\[
+  S_n=\sum_{j=1}^n X_j,
+  \qquad X_j\in\{-1,1\}.
+\]
+The first increment satisfies
+\(\Pbb(X_1=1)=q\) and \(\Pbb(X_1=-1)=1-q\), where \(q\in[0,1]\).
+
+For \(n\geq 1\), let \(K_n\) be conditionally uniform on
+\(\{1,\ldots,n\}\) given \(\F_n\), and let \(p_n\) be an
+\(\F_n\)-measurable random variable taking values in \((0,1)\). Conditional on
+\(\F_n\) and \(K_n\), define
+\[
+  X_{n+1}=
+  \begin{cases}
+  X_{K_n}, & \text{with probability } p_n,\\
+  -X_{K_n}, & \text{with probability } 1-p_n.
+  \end{cases}
+\]
+The process \(p_n\) is the learning-controlled memory policy. In AI language,
+it may be written as
+\[
+  p_n=\ell(\theta_n),
+\]
+where \(\theta_n\) is the state of an online learning algorithm and
+\(\ell:\R^d\to(0,1)\) is a bounded policy link, for example a logistic map.
+Set
+\[
+  a_n=2p_n-1.
+\]
+The coefficient \(a_n\in(-1,1)\) is the learned memory coefficient. Positive
+values favour repetition of the recalled step, negative values favour reversal,
+and \(a_n=0\) corresponds to no directional memory in conditional mean.
+
+\begin{assumption}[Stable diffusive learning]\label{ass:stable}
+There exist constants \(a\in(-1,1/2)\), \(\varepsilon\in(0,1)\) and
+\(\bar a<1/2\) such that, almost surely,
+\[
+  a_n\in[-1+\varepsilon,\,1-\varepsilon]
+  \quad\text{and}\quad a_n\leq\bar a
+  \quad\text{for all } n,
+\]
+and
+\[
+  \sum_{n=1}^{\infty}\frac{|a_n-a|}{n}<\infty.
+\]
+\end{assumption}
+
+\begin{remark}
+The summability condition is satisfied whenever \(a_n\to a\) at any polynomial
+rate, for instance \(|a_n-a|=O(n^{-\rho})\) with \(\rho>0\). It is deliberately
+stated pathwise, because the learning rule may be deterministic, data-driven or
+generated by a stochastic approximation algorithm.
+\end{remark}
+
+\section{Main Results}
+
+\begin{theorem}[Exact martingale normalisation]\label{thm:martingale}
+Define \(A_1=1\) and, for \(n\geq 1\),
+\[
+  A_{n+1}=\prod_{k=1}^{n}\left(1+\frac{a_k}{k}\right).
+\]
+Then
+\[
+  M_n=\frac{S_n}{A_n},\qquad n\geq 1,
+\]
+is a martingale with respect to \((\F_n)\).
+\end{theorem}
+
+\begin{proof}
+Since \(K_n\) is conditionally uniform on \(\{1,\ldots,n\}\),
+\[
+  \E[X_{K_n}\mid \F_n]=\frac{1}{n}\sum_{j=1}^{n}X_j=\frac{S_n}{n}.
+\]
+Using the conditional repeat--reverse rule,
+\[
+  \E[X_{n+1}\mid \F_n]
+  =(p_n-(1-p_n))\frac{S_n}{n}
+  =a_n\frac{S_n}{n}.
+\]
+Therefore
+\[
+  \E[S_{n+1}\mid \F_n]
+  =S_n+a_n\frac{S_n}{n}
+  =\left(1+\frac{a_n}{n}\right)S_n.
+\]
+By definition, \(A_{n+1}=(1+a_n/n)A_n\). Hence
+\[
+  \E\left[\frac{S_{n+1}}{A_{n+1}}\middle|\F_n\right]
+  =\frac{S_n}{A_n}=M_n.
+\]
+The increments are bounded after normalisation on every finite horizon, so
+integrability is immediate.
+\end{proof}
+
+\begin{lemma}[Second moment control]\label{lem:second}
+Under Assumption~\ref{ass:stable}, there is a deterministic constant \(C_2\)
+such that
+\[
+  \sup_{n\geq 1}\frac{\E[S_n^2]}{n}\leq C_2.
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(V_n=\E[S_n^2]\). Since \(X_{n+1}^2=1\),
+\[
+  \E[S_{n+1}^2\mid\F_n]
+  =S_n^2+2S_n\E[X_{n+1}\mid\F_n]+1
+  =\left(1+\frac{2a_n}{n}\right)S_n^2+1.
+\]
+Taking expectations and using Assumption~\ref{ass:stable} gives, for all
+\(n\geq 1\),
+\[
+  V_{n+1}\leq \left(1+\frac{2\bar a}{n}\right)V_n+1.
+\]
+A standard comparison with the deterministic recursion
+\(u_{n+1}=(1+2\bar a/n)u_n+1\) yields \(u_n=O(n)\) when \(2\bar a<1\).
+Therefore \(V_n=O(n)\), as required.
+\end{proof}
+
+\begin{theorem}[Diffusive central limit theorem]\label{thm:clt}
+Under Assumption~\ref{ass:stable},
+\[
+  \frac{S_n}{\sqrt{n}}
+  \ \xrightarrow{\ \mathcal{D}\ }\ 
+  \mathcal{N}\left(0,\frac{1}{1-2a}\right).
+\]
+\end{theorem}
+
+\begin{proof}
+Write the martingale increments as
+\[
+  \Delta M_{k+1}
+  =M_{k+1}-M_k
+  =\frac{X_{k+1}-a_kS_k/k}{A_{k+1}}.
+\]
+The predictable quadratic variation is
+\[
+  \langle M\rangle_n
+  =\sum_{k=1}^{n-1}
+  \frac{1-a_k^2S_k^2/k^2}{A_{k+1}^2}.
+\]
+Assumption~\ref{ass:stable} implies, by logarithmic expansion,
+\[
+  A_n=L\,n^a(1+o(1))
+\]
+for an almost surely finite and strictly positive random variable \(L\). Indeed,
+\[
+  \log A_n
+  =\sum_{k=1}^{n-1}\log\left(1+\frac{a_k}{k}\right)
+  =a\log n+O(1)+o(1),
+\]
+because \(\sum_k |a_k-a|/k<\infty\) and
+\(\sum_k k^{-2}<\infty\).
+
+It follows that
+\[
+  \frac{A_n^2}{n}\sum_{k=1}^{n-1}\frac{1}{A_{k+1}^2}
+  \longrightarrow \frac{1}{1-2a}.
+\]
+The correction term satisfies
+\[
+  \E\left[
+  \frac{A_n^2}{n}\sum_{k=1}^{n-1}
+  \frac{a_k^2S_k^2/k^2}{A_{k+1}^2}
+  \right]
+  \leq
+  C\frac{A_n^2}{n}
+  \sum_{k=1}^{n-1}\frac{1}{A_{k+1}^2}\frac{\E[S_k^2]}{k^2}.
+\]
+By Lemma~\ref{lem:second}, \(\E[S_k^2]/k^2=O(1/k)\). A Toeplitz/Kronecker
+argument then gives convergence of this term to zero; hence
+\[
+  \frac{A_n^2}{n}\langle M\rangle_n
+  \xrightarrow{\Pbb}
+  \frac{1}{1-2a}.
+\]
+
+For the martingale Lindeberg condition, observe that
+\[
+  |\Delta M_{k+1}|
+  \leq \frac{2}{A_{k+1}}.
+\]
+Because \(A_k\asymp k^a\) and \(a<1/2\), the largest martingale increment is
+negligible relative to \(\langle M\rangle_n^{1/2}\):
+\[
+  \max_{k\leq n}\frac{|\Delta M_k|}{\langle M\rangle_n^{1/2}}
+  \xrightarrow{\Pbb}0.
+\]
+Thus the conditional Lindeberg condition holds. The martingale central limit
+theorem \citep[see][]{hall1980martingale} gives
+\[
+  \frac{M_n}{\langle M\rangle_n^{1/2}}
+  \xrightarrow{\mathcal D}\mathcal N(0,1).
+\]
+Combining this with the convergence of
+\((A_n^2/n)\langle M\rangle_n\) and Slutsky's theorem yields
+\[
+  \frac{S_n}{\sqrt n}
+  \xrightarrow{\mathcal D}
+  \mathcal N\left(0,\frac{1}{1-2a}\right).
+\]
+\end{proof}
+
+\begin{corollary}[Stability of convergent learning policies]\label{cor:ai}
+Let \(\theta_n\in\R^d\) be an \(\F_n\)-predictable learning state and let
+\(\ell:\R^d\to(\varepsilon,1-\varepsilon)\) be Lipschitz. Put
+\[
+  p_n=\ell(\theta_n),\qquad a_n=2p_n-1.
+\]
+If \(\theta_n\to\theta_\star\) almost surely and
+\[
+  \sum_{n=1}^\infty \frac{\|\theta_n-\theta_\star\|}{n}<\infty,
+\]
+with \(a=2\ell(\theta_\star)-1<1/2\), and if there exists
+\(\bar a<1/2\) such that \(2\ell(\theta_n)-1\leq\bar a\) for all \(n\), then
+the LC-ERW satisfies the central limit theorem in Theorem~\ref{thm:clt}.
+\end{corollary}
+
+\begin{proof}
+By Lipschitz continuity,
+\[
+  |a_n-a|\leq 2\,\operatorname{Lip}(\ell)\|\theta_n-\theta_\star\|.
+\]
+The displayed summability condition implies Assumption~\ref{ass:stable}, and
+Theorem~\ref{thm:clt} applies.
+\end{proof}
+
+\section{Examples of Learning Rules}
+
+\paragraph{Deterministic annealing.}
+Let \(p_n=p_\star+c(n+1)^{-\rho}\), truncated to
+\((\varepsilon,1-\varepsilon)\), where \(p_\star<3/4\) and \(\rho>0\).
+Then \(a_n\to a=2p_\star-1<1/2\) and the summability condition holds.
+
+\paragraph{Online logistic policy.}
+Let \(p_n=\ell(\theta_n)\), where
+\(\ell(x)=\varepsilon+(1-2\varepsilon)/(1+\exp(-x))\), and suppose
+\(\theta_n\) is an online estimator converging to \(\theta_\star\) at a
+polynomial rate. The corollary gives the limiting law whenever
+\(\ell(\theta_\star)<3/4\).
+
+\paragraph{Adaptive exploration controller.}
+Let an AI controller observe \(S_n/n\) and update
+\[
+  \theta_{n+1}=\theta_n+\gamma_{n+1}\{b-\theta_n-\lambda S_n/n\},
+\]
+with \(\gamma_n\asymp n^{-\eta}\), \(\eta\in(1/2,1]\), and a stable target
+\(b\). Under standard stochastic approximation stability conditions, the
+controller converges to \(b\), so the LC-ERW has the diffusive Gaussian limit
+with \(a=2\ell(b)-1\), provided \(a<1/2\). Classical sufficient conditions for
+such recursions are given by \citet{kushner2003stochastic}.
+
+\section{Numerical Experiments}
+
+The accompanying R scripts simulate the LC-ERW for several policies:
+
+\begin{enumerate}
+  \item a fixed-memory benchmark;
+  \item a deterministic annealing policy;
+  \item a logistic learning policy with polynomial convergence;
+  \item a simple adaptive controller using the empirical drift \(S_n/n\).
+\end{enumerate}
+
+For each policy, the scripts estimate the empirical variance of
+\(S_n/\sqrt n\), compare it with \((1-2a)^{-1}\), and report skewness, excess
+kurtosis and Kolmogorov--Smirnov diagnostics against the predicted Gaussian
+law. These computations do not prove the theorem; they check whether finite
+sample behaviour is consistent with the asymptotic prediction.
+
+\section{Discussion}
+
+The LC-ERW shows that an AI-style adaptive memory policy can be incorporated
+into an ERW without destroying its martingale backbone. The main theorem says
+that, in the diffusive regime, stable learning is asymptotically equivalent to
+freezing the memory parameter at its learned limit. This is useful in two
+directions. For probability theory, it extends ERW analysis from fixed or
+externally prescribed parameters to predictable data-driven policies. For AI,
+it supplies a rare case in which an adaptive exploration mechanism with complete
+memory has a transparent asymptotic law.
+
+Several limitations remain. The theorem does not cover critical learning
+limits \(a=1/2\), superdiffusive limits \(a>1/2\), multidimensional ERW, or
+learning rules whose parameter does not converge. These cases are likely to
+require different normalisations and may lead to non-Gaussian limits. Another
+open direction is statistical inference: estimating the learned memory
+trajectory \(p_n\) from observed LC-ERW paths.
+
+\section{Conclusion}
+
+This paper formulated a learning-controlled elephant random walk and proved
+that predictable adaptive memory policies admit an exact martingale
+normalisation. Under a stable diffusive learning condition, the process obeys a
+central limit theorem with variance determined by the learned limiting memory
+coefficient. The result gives a rigorous and reproducible starting point for
+connecting elephant random walks with AI-controlled stochastic exploration.
+
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\end{document}
