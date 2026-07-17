@@ -58,21 +58,23 @@ make_policy <- function(name) {
     ))
   }
 
-  if (name == "adaptive_controller") {
+  if (name == "damped_empirical") {
     eps <- 0.05
     p_star <- 0.58
-    b <- theta_for_p(p_star, eps)
-    lambda <- 0.20
-    eta <- 0.75
+    theta_star <- theta_for_p(p_star, eps)
+    c <- 0.35
+    beta <- 0.50
+    rho <- 0.60
+    delta <- 0.40
     return(list(
       name = name,
       p_limit = p_star,
-      theta0 = b + 0.30,
-      get_p = function(t, S_t, theta) clip(logistic_link(theta, eps), 0.05, 0.72),
-      update = function(t, S_next, theta) {
-        gamma <- 0.8 / (t + 10)^eta
-        theta + gamma * (b - theta - lambda * S_next / (t + 1))
-      }
+      theta0 = theta_star,
+      get_p = function(t, S_t, theta) {
+        theta_t <- theta_star + c / (t + 1)^rho + beta * S_t / t^(1 + delta)
+        clip(logistic_link(theta_t, eps), 0.05, 0.72)
+      },
+      update = function(t, S_next, theta) theta
     ))
   }
 
@@ -100,7 +102,7 @@ simulate_lc_erw_path <- function(n, policy, q = 0.5) {
   list(S_n = S[n], scaled = S[n] / sqrt(n), mean_p_tail = mean(tail(p_hist, 100)))
 }
 
-simulate_policy <- function(policy_name, n = 2500, reps = 800, seed = 123) {
+simulate_scaled_values <- function(policy_name, n = 2500, reps = 800, seed = 123) {
   set.seed(seed)
   policy <- make_policy(policy_name)
   scaled <- numeric(reps)
@@ -112,11 +114,19 @@ simulate_policy <- function(policy_name, n = 2500, reps = 800, seed = 123) {
     tail_p[r] <- path$mean_p_tail
   }
 
+  list(policy = policy, scaled = scaled, tail_p = tail_p)
+}
+
+summarise_scaled_values <- function(policy_name, n, reps, scaled, tail_p) {
+  policy <- make_policy(policy_name)
   a_limit <- 2 * policy$p_limit - 1
   theoretical_variance <- 1 / (1 - 2 * a_limit)
   empirical_variance <- var(scaled)
   empirical_mean <- mean(scaled)
   empirical_sd <- sd(scaled)
+  variance_se <- empirical_variance * sqrt(2 / (reps - 1))
+  variance_ci_low <- empirical_variance - 1.96 * variance_se
+  variance_ci_high <- empirical_variance + 1.96 * variance_se
   skewness <- mean((scaled - empirical_mean)^3) / empirical_sd^3
   excess_kurtosis <- mean((scaled - empirical_mean)^4) / empirical_sd^4 - 3
   ks <- suppressWarnings(ks.test(scaled, "pnorm", mean = 0, sd = sqrt(theoretical_variance)))
@@ -130,8 +140,15 @@ simulate_policy <- function(policy_name, n = 2500, reps = 800, seed = 123) {
     mean_tail_p = mean(tail_p),
     theoretical_variance = theoretical_variance,
     empirical_mean = empirical_mean,
+    mean_se = empirical_sd / sqrt(reps),
     empirical_variance = empirical_variance,
+    variance_se = variance_se,
+    variance_ci_low = variance_ci_low,
+    variance_ci_high = variance_ci_high,
     variance_ratio = empirical_variance / theoretical_variance,
+    q025 = unname(quantile(scaled, 0.025)),
+    q500 = unname(quantile(scaled, 0.500)),
+    q975 = unname(quantile(scaled, 0.975)),
     skewness = skewness,
     excess_kurtosis = excess_kurtosis,
     ks_statistic = unname(ks$statistic),
@@ -140,8 +157,30 @@ simulate_policy <- function(policy_name, n = 2500, reps = 800, seed = 123) {
   )
 }
 
+simulate_policy <- function(policy_name, n = 2500, reps = 800, seed = 123) {
+  values <- simulate_scaled_values(policy_name, n = n, reps = reps, seed = seed)
+  summarise_scaled_values(policy_name, n, reps, values$scaled, values$tail_p)
+}
+
+save_qq_plot <- function(policy_name, n = 2500, reps = 800, seed = 123, out_dir = "results") {
+  values <- simulate_scaled_values(policy_name, n = n, reps = reps, seed = seed)
+  a_limit <- 2 * values$policy$p_limit - 1
+  theoretical_sd <- sqrt(1 / (1 - 2 * a_limit))
+
+  if (!dir.exists(out_dir)) {
+    dir.create(out_dir, recursive = TRUE)
+  }
+
+  output <- file.path(out_dir, paste0("qq_", policy_name, "_n", n, ".pdf"))
+  grDevices::pdf(output, width = 6, height = 6)
+  qqnorm(values$scaled, main = paste("LC-ERW QQ plot:", policy_name))
+  qqline(values$scaled, distribution = function(p) qnorm(p, sd = theoretical_sd), col = 2)
+  grDevices::dev.off()
+  invisible(output)
+}
+
 run_default_experiment <- function() {
-  policies <- c("fixed", "annealing", "logistic_learning", "adaptive_controller")
+  policies <- c("fixed", "annealing", "logistic_learning", "damped_empirical")
   results <- do.call(rbind, lapply(seq_along(policies), function(i) {
     simulate_policy(policies[i], seed = 123 + i)
   }))
@@ -155,6 +194,9 @@ run_default_experiment <- function() {
     dir.create(out_dir, recursive = TRUE)
   }
   write.csv(results, file.path(out_dir, "lc_erw_simulation_summary.csv"), row.names = FALSE)
+  invisible(lapply(seq_along(policies), function(i) {
+    save_qq_plot(policies[i], seed = 900 + i, out_dir = out_dir)
+  }))
   invisible(results)
 }
 

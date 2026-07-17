@@ -10,7 +10,7 @@ project_dir <- dirname(script_dir)
 source(file.path(script_dir, "simulate_lc_erw.R"))
 
 run_variance_grid <- function() {
-  policies <- c("fixed", "annealing", "logistic_learning", "adaptive_controller")
+  policies <- c("fixed", "annealing", "logistic_learning", "damped_empirical")
   sizes <- c(1000, 2500, 5000)
   reps <- 500
 
@@ -26,7 +26,8 @@ run_variance_grid <- function() {
   results <- do.call(rbind, rows)
   print(results[, c(
     "policy", "n", "reps", "theoretical_variance",
-    "empirical_variance", "variance_ratio", "ks_p_value"
+    "empirical_variance", "variance_ci_low", "variance_ci_high",
+    "variance_ratio", "ks_p_value"
   )], digits = 4)
 
   out_dir <- file.path(project_dir, "results")

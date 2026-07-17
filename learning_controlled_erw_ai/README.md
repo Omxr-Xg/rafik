@@ -9,8 +9,8 @@ learning rule.
 
 - `main.tex`: LaTeX manuscript with model definition, theorems, proofs and discussion.
 - `references.bib`: BibTeX references in author-year style.
-- `R/simulate_lc_erw.R`: Base R simulations for four LC-ERW policies.
-- `R/check_variance.R`: Variance convergence checks across sample sizes.
+- `R/simulate_lc_erw.R`: Base R simulations for four LC-ERW policies, including QQ-plots.
+- `R/check_variance.R`: Variance convergence checks across sample sizes with confidence intervals.
 - `results/`: Created automatically by the R scripts.
 
 ## Compile the Manuscript
@@ -39,6 +39,9 @@ The scripts use base R only and write CSV summaries to:
 
 - `learning_controlled_erw_ai/results/lc_erw_simulation_summary.csv`
 - `learning_controlled_erw_ai/results/lc_erw_variance_grid.csv`
+
+The default simulation script also writes QQ-plot PDFs to
+`learning_controlled_erw_ai/results/`.
 
 ## Scientific Note
 
