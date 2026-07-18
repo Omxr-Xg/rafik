@@ -8,11 +8,24 @@ logistic_link <- function(theta, eps = 0.05) {
 }
 
 theta_for_p <- function(p, eps = 0.05) {
+  if (p <= eps || p >= 1 - eps) {
+    stop("p must lie strictly between eps and 1 - eps")
+  }
   qlogis((p - eps) / (1 - 2 * eps))
 }
 
 clip <- function(x, lo, hi) {
   pmin(pmax(x, lo), hi)
+}
+
+validate_simulation_args <- function(n, reps = NULL) {
+  if (!is.numeric(n) || length(n) != 1 || is.na(n) || n < 2 || n != as.integer(n)) {
+    stop("n must be a single integer greater than or equal to 2")
+  }
+  if (!is.null(reps) &&
+      (!is.numeric(reps) || length(reps) != 1 || is.na(reps) || reps < 2 || reps != as.integer(reps))) {
+    stop("reps must be a single integer greater than or equal to 2")
+  }
 }
 
 make_policy <- function(name) {
@@ -85,6 +98,11 @@ make_policy <- function(name) {
 }
 
 simulate_lc_erw_path <- function(n, policy, q = 0.5) {
+  validate_simulation_args(n)
+  if (!is.numeric(q) || length(q) != 1 || is.na(q) || q < 0 || q > 1) {
+    stop("q must be a probability in [0, 1]")
+  }
+
   X <- integer(n)
   S <- integer(n)
   p_hist <- numeric(n - 1)
@@ -106,6 +124,7 @@ simulate_lc_erw_path <- function(n, policy, q = 0.5) {
 }
 
 simulate_scaled_values <- function(policy_name, n = 2500, reps = 800, seed = 123) {
+  validate_simulation_args(n, reps)
   set.seed(seed)
   policy <- make_policy(policy_name)
   scaled <- numeric(reps)
@@ -121,6 +140,7 @@ simulate_scaled_values <- function(policy_name, n = 2500, reps = 800, seed = 123
 }
 
 summarise_scaled_values <- function(policy_name, n, reps, scaled, tail_p) {
+  validate_simulation_args(n, reps)
   policy <- make_policy(policy_name)
   a_limit <- 2 * policy$p_limit - 1
   theoretical_variance <- 1 / (1 - 2 * a_limit)

@@ -1,17 +1,5 @@
 \begin{thebibliography}{}
 
-\bibitem[Aguech, 2024a]{aguech2024delays}
-Aguech, R. (2024a).
-\newblock Elephant random walk with a random step size and gradually increasing
-  memory and delays.
-\newblock {\em Axioms}, 13(9):629.
-
-\bibitem[Aguech, 2024b]{aguech2024clt}
-Aguech, R. (2024b).
-\newblock On the central limit theorem for the elephant random walk with
-  gradually increasing memory and random step size.
-\newblock {\em AIMS Mathematics}, 9(7):17784--17794.
-
 \bibitem[Baur and Bertoin, 2016]{baur2016elephant}
 Baur, E. and Bertoin, J. (2016).
 \newblock Elephant random walks and their connection to {P}{\'o}lya-type urns.
@@ -23,38 +11,11 @@ Bercu, B. (2018).
 \newblock {\em Journal of Physics A: Mathematical and Theoretical},
   51(1):015201.
 
-\bibitem[Busingye and Nteziyaremye, 2025]{randommemory2025}
-Busingye, D. and Nteziyaremye, V. (2025).
-\newblock On elephant random walk with random memory.
-\newblock {\em arXiv preprint arXiv:2501.12866}.
-
 \bibitem[Coletti et~al., 2017]{colette2017central}
 Coletti, C.~F., Gava, R., and Sch{\"u}tz, G.~M. (2017).
 \newblock Central limit theorem and related results for the elephant random
   walk.
 \newblock {\em Journal of Mathematical Physics}, 58(5):053303.
-
-\bibitem[Dedecker et~al., 2023]{dedecker2023rates}
-Dedecker, J., Fan, X., Hu, H., and Merlev{\`e}de, F. (2023).
-\newblock Rates of convergence in the central limit theorem for the elephant
-  random walk with random step sizes.
-\newblock {\em Journal of Statistical Physics}, 190(10):173.
-
-\bibitem[Ethier and Kurtz, 1986]{ethier1986markov}
-Ethier, S.~N. and Kurtz, T.~G. (1986).
-\newblock {\em Markov Processes: Characterization and Convergence}.
-\newblock John Wiley \& Sons, New York.
-
-\bibitem[Gut and Stadtm{\"u}ller, 2021]{gut2021variations}
-Gut, A. and Stadtm{\"u}ller, U. (2021).
-\newblock Variations of the elephant random walk.
-\newblock {\em Journal of Applied Probability}, 58(3):805--829.
-
-\bibitem[Gut and Stadtm{\"u}ller, 2023]{gut2023review}
-Gut, A. and Stadtm{\"u}ller, U. (2023).
-\newblock Elephant random walks; a review.
-\newblock {\em Annales Universitatis Scientiarum Budapestinensis de Rolando
-  E{\"o}tv{\"o}s Nominatae, Sectio Computatorica}, 54:171--198.
 
 \bibitem[Hall and Heyde, 1980]{hall1980martingale}
 Hall, P. and Heyde, C.~C. (1980).
