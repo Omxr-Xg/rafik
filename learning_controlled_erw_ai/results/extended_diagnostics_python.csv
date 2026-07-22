@@ -1,0 +1,4 @@
+diagnostic,n,reps,value,target,runtime_seconds
+critical_variance,2500,500,0.7996635705435392,1.0,4.357539457996609
+superdiffusive_scaled_sd,2500,500,2.1230785471246034,finite non-Gaussian terminal law,4.357539457996609
+slow_variation_product_ratio_mean,2500,500,1.2085182266375523,finite positive constant,4.357539457996609

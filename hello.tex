@@ -12,7 +12,7 @@
 \date{\today}
 \maketitle
 
-\section{Résumé}
+\section{AAARésumé}
 Cet article présente une réflexion exploratoire sur la recherche de nouvelles formules de probabilité, en particulier une famille de modèles conceptuels que nous désignons par \og pas d'éléphant \fg. L'objectif est d'étudier des approches alternatives aux formules classiques, en mettant l'accent sur la simplicité, la robustesse et une interprétation heuristique adaptée aux phénomènes discrets.
 
 \section{Contexte et motivation}
@@ -20,22 +20,22 @@ La théorie des probabilités repose traditionnellement sur des concepts bien é
 
 Le nom \og pas d'éléphant \fg évoque l'idée d'un événement absent ou inattendu, comme un \og éléphant dans la pièce \fg qui n'est pas présent. Ces formules cherchent à capturer la probabilité de situations où l'absence d'un élément majeur est elle-même significative.
 
-\section{Définition d'une formule \og pas d'éléphant \fg}
-On peut définir une famille de fonctions de probabilité en utilisant un paramètre de confiance $\alpha$ et une mesure d'absence $E$. Par exemple :
+\section{Formule unique \og pas d'éléphant \fg}
+Nous proposons une formule unique pour évaluer la probabilité d'un événement $A$ dans le cadre de cette démarche :
 
 \begin{equation}
-P_{\text{pas}}(A) = \frac{1}{Z(\alpha)}\exp\left(-\alpha\,E(A)\right),
+P_{\text{pas}}(A) = \frac{1}{1 + \exp\left(\alpha\left(E(A) - \beta\right)\right)},
 \end{equation}
 
 où :
 \begin{itemize}
   \item $A$ est un événement ou un ensemble d'événements,
-  \item $E(A)$ quantifie l'absence d'un \og éléphant \fg{} dans $A$,
-  \item $\alpha > 0$ règle la sensibilité au critère d'absence,
-  \item $Z(\alpha)$ est la constante de normalisation.
+  \item $E(A)$ mesure l'absence d'un \og éléphant \fg{} dans $A$,
+  \item $\alpha > 0$ contrôle la pente de la transition,
+  \item $\beta$ est un seuil d'absence qui définit la zone critique.
 \end{itemize}
 
-Cette expression rappelle les modèles exponentiels, mais elle met l'accent sur une mesure d'absence plutôt que sur une somme de caractéristiques positives.
+Cette formule unique, de type logistique, conserve une sortie dans $[0,1]$ et permet d'interpréter la probabilité comme la force relative d'une absence significative. Lorsque $E(A)$ est inférieur à $\beta$, l'événement est considéré comme peu probable ; lorsque $E(A)$ dépasse $\beta$, la probabilité tend vers 1, ce qui traduit une absence d'éléphant de plus en plus marquée.
 
 \section{Applications potentielles}
 Les formules \og pas d'éléphant \fg{} peuvent être utiles dans plusieurs contextes :

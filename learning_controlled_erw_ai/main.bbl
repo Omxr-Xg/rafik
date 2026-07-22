@@ -1,0 +1,63 @@
+\begin{thebibliography}{}
+
+\bibitem[Baur and Bertoin, 2016]{baur2016elephant}
+Baur, E. and Bertoin, J. (2016).
+\newblock Elephant random walks and their connection to {P}{\'o}lya-type urns.
+\newblock {\em Physical Review E}, 94(5):052134.
+
+\bibitem[Bercu, 2018]{bercu2018martingale}
+Bercu, B. (2018).
+\newblock A martingale approach for the elephant random walk.
+\newblock {\em Journal of Physics A: Mathematical and Theoretical},
+  51(1):015201.
+
+\bibitem[Coletti et~al., 2017]{colette2017central}
+Coletti, C.~F., Gava, R., and Sch{\"u}tz, G.~M. (2017).
+\newblock Central limit theorem and related results for the elephant random
+  walk.
+\newblock {\em Journal of Mathematical Physics}, 58(5):053303.
+
+\bibitem[Hall and Heyde, 1980]{hall1980martingale}
+Hall, P. and Heyde, C.~C. (1980).
+\newblock {\em Martingale Limit Theory and Its Application}.
+\newblock Academic Press, New York.
+
+\bibitem[Janson, 2004]{janson2004urns}
+Janson, S. (2004).
+\newblock Functional limit theorems for multitype branching processes and
+  generalized {P}{\'o}lya urns.
+\newblock {\em Stochastic Processes and their Applications}, 110(2):177--245.
+
+\bibitem[Janson, 2005]{janson2005triangular}
+Janson, S. (2005).
+\newblock Limit theorems for triangular urn schemes.
+\newblock {\em Probability Theory and Related Fields}, 134(3):417--452.
+
+\bibitem[Kushner and Yin, 2003]{kushner2003stochastic}
+Kushner, H.~J. and Yin, G.~G. (2003).
+\newblock {\em Stochastic Approximation and Recursive Algorithms and
+  Applications}.
+\newblock Springer, New York, 2 edition.
+
+\bibitem[Laruelle and Pag{\`e}s, 2013]{laruelle2013urns}
+Laruelle, S. and Pag{\`e}s, G. (2013).
+\newblock Randomized urn models revisited using stochastic approximation.
+\newblock {\em The Annals of Applied Probability}, 23(4):1409--1436.
+
+\bibitem[Laulin, 2022]{laulin2022reinforced}
+Laulin, L. (2022).
+\newblock New insights on the reinforced elephant random walk.
+\newblock {\em ESAIM: Probability and Statistics}, 26:547--579.
+
+\bibitem[Pemantle, 2007]{pemantle2007survey}
+Pemantle, R. (2007).
+\newblock A survey of random processes with reinforcement.
+\newblock {\em Probability Surveys}, 4:1--79.
+
+\bibitem[Sch{\"u}tz and Trimper, 2004]{schutz2004elephants}
+Sch{\"u}tz, G.~M. and Trimper, S. (2004).
+\newblock Elephants can always remember: exact long-range memory effects in a
+  non-{M}arkovian random walk.
+\newblock {\em Physical Review E}, 70(4):045101.
+
+\end{thebibliography}

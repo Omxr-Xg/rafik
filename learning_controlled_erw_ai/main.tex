@@ -1,0 +1,907 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[authoryear,round]{natbib}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+\title{\textbf{Product Geometry for Predictable Linear Reinforcement}\\
+Elephant Walks, Universality and Critical Windows}
+
+\author{Research draft}
+\date{\today}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{assumption}{Assumption}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Pbb}{\mathbb{P}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Law}{\mathcal{L}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\D}{\mathcal{D}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study discrete-time processes whose conditional drift has the predictable
+linear reinforcement form
+\[
+  \E[\xi_{n+1}\mid\F_n]=a_nS_n/n,\qquad S_n=\sum_{k\le n}\xi_k,
+\]
+with bounded predictable environment \(a_n\). The point is not a new variant of
+one random walk, but a classification principle. Once the environment is fixed,
+the asymptotic behaviour is governed by two canonical quantities: the
+multiplicative normalisation
+\[
+  A_n=\prod_{k<n}\left(1+\frac{a_k}{k}\right)
+\]
+and the quadratic variation of the martingale \(S_n/A_n\). The main theorem
+proves a product--bracket classification for predictable linear reinforcement
+schemes satisfying explicit regularity and Lindeberg conditions.
+Infinite bracket gives Gaussian martingale limits with deterministic time
+changes determined by the ratios of the product and bracket; finite bracket
+gives a terminal martingale law. Predictable elephant random walks are then a
+canonical application: their bracket decomposes as a product-determined clock
+minus a negligible self-interaction term. This yields the classical diffusive,
+critical and superdiffusive regimes as corollaries and exposes logarithmic
+critical windows in which \(a_n\to1/2\) produces three different normalising
+scales. We also prove rigidity: schemes with equivalent product and bracket
+geometry have the same scaling limits. Counterexamples show why convergence of
+the coefficient alone cannot classify the asymptotics.
+\end{abstract}
+
+\noindent\textbf{Keywords:} predictable reinforcement; elephant random walk;
+martingales; universality; phase transition; regular variation.
+
+\section{Introduction}
+
+Many reinforced and self-interacting processes have a linear first-order drift:
+after a suitable projection, the next increment has conditional mean
+proportional to the present state divided by time. In the simplest scalar form,
+\[
+  \E[\xi_{n+1}\mid\F_n]=a_n\frac{S_n}{n},
+  \qquad S_n=\sum_{k\le n}\xi_k,
+\]
+where the coefficient \(a_n\) is predictable. Fixed \(a_n\) gives the classical
+linear reinforcement exponents. Predictable \(a_n\), however, creates a
+different problem: small changes in the drift accumulate over logarithmic time,
+so the limiting coefficient alone cannot determine the asymptotics.
+
+This paper isolates the invariant behind this phenomenon. The conditional drift
+is removed by the multiplicative product
+\[
+  A_n=\prod_{k<n}\left(1+\frac{a_k}{k}\right),
+\]
+and the remaining fluctuations are governed by the quadratic variation of the
+martingale \(S_n/A_n\). The product and the bracket are therefore the two
+canonical coordinates of a predictable linear reinforcement scheme. The main
+result proves that, under explicit regularity and Lindeberg conditions, these
+coordinates classify the scaling limits: infinite bracket gives Gaussian limits
+with deterministic time change, while finite bracket gives a terminal martingale
+law.
+
+The elephant random walk enters as the basic complete-memory model where this
+principle can be pushed to a concrete phase diagram. At time \(n+1\), the walker
+chooses a past increment uniformly and either repeats or reverses it. For a fixed
+memory parameter the model has diffusive, critical and superdiffusive regimes
+\citep{schutz2004elephants,colette2017central,baur2016elephant,bercu2018martingale}.
+If the repeat--reverse coefficient is predictable, the same martingale product
+appears, but the bracket contains a self-interaction correction. Showing that
+this correction is negligible in the appropriate regimes turns the abstract
+classification into explicit ERW limits.
+
+The point is not that \(p\) has been replaced by \(p_n\). The point is that the
+phase boundary is product-geometric. For example,
+\[
+  a_n=\frac12+\frac{c}{\log n}
+\]
+has the same pointwise limit \(1/2\) for every \(c\), but it produces three
+different bracket geometries and hence three different normalising scales. This
+logarithmic critical window is the simplest place where the hidden geometry is
+visible: convergence of the environment is too crude, while the product and
+bracket see the phase transition.
+
+This perspective separates the present work from several neighbouring theories.
+Classical ERW methods rely on a fixed exponent. Urn methods rely on a fixed or
+asymptotically stable replacement scheme
+\citep{janson2004urns,janson2005triangular,laruelle2013urns}. Reinforced
+processes exhibit many memory mechanisms \citep{pemantle2007survey,laulin2022reinforced},
+and stochastic approximation studies adaptive parameters through their own
+limiting recursion \citep{kushner2003stochastic}. Here the object being
+classified is the predictable reinforcement environment itself, through the
+product--bracket geometry it induces.
+
+The paper is organised as follows. Section~\ref{sec:model} defines predictable
+linear reinforcement schemes and then specialises them to predictable elephant
+walks. Section~\ref{sec:classification} states the master classification theorem
+and the rigidity principle. Section~\ref{sec:proofs} proves the martingale
+representation and the classification. Section~\ref{sec:regimes} derives the
+ERW phase diagram. Section~\ref{sec:optimality} gives counterexamples and the
+logarithmic critical window. Section~\ref{sec:examples} records learning rules
+only as examples of predictable environments, and Section~\ref{sec:open}
+collects open problems.
+
+\section{Predictable Linear Reinforcement}\label{sec:model}
+
+Let \((\Omega,\F,\Pbb)\) carry a filtration \((\F_n)_{n\ge0}\). A scalar
+predictable linear reinforcement scheme is an adapted process
+\[
+  S_n=S_0+\sum_{k=1}^n \xi_k
+\]
+with square-integrable increments such that, for a bounded predictable
+environment \((a_n)_{n\ge1}\),
+\[
+  \E[\xi_{n+1}\mid\F_n]=a_n\frac{S_n}{n},
+  \qquad n\ge1.
+\]
+Throughout we assume that, for some \(\varepsilon\in(0,1)\),
+\[
+  -1+\varepsilon\le a_n\le 1-\varepsilon.
+\]
+This is the natural non-degeneracy condition for the multiplicative
+normalisation. Define
+\[
+  A_0=A_1=1,\qquad
+  A_{n+1}=A_n\left(1+\frac{a_n}{n}\right),
+\]
+The product \(A_n\) is the first invariant of the scheme. The second invariant
+is the bracket of the martingale \(M_n=S_n/A_n\), denoted by
+\[
+  V_n=\langle M\rangle_n.
+\]
+The pair \((A_n,V_n)\) is the canonical product--bracket geometry.
+
+All convergence assumptions in the master theorem are annealed statements unless
+explicitly stated otherwise. In the deterministic, or externally sampled and then
+conditioned, case the same assumptions may be read quenched, path by path. This
+distinction matters only for how the product--bracket geometry is verified; the
+martingale classification itself is identical.
+
+The predictable elephant random walk is the main example. It has increments
+\(X_n\in\{-1,1\}\), position \(S_n=\sum_{j=1}^nX_j\), and \(S_0=0\). At time
+\(n+1\), choose \(K_n\) conditionally uniform on \(\{1,\ldots,n\}\). If
+\(p_n\) is \(\F_n\)-measurable and \(a_n=2p_n-1\), then conditional on
+\(\F_n\) and \(K_n\),
+\[
+  X_{n+1}=
+  \begin{cases}
+  X_{K_n}, & \text{with probability }p_n,\\
+  -X_{K_n}, & \text{with probability }1-p_n.
+  \end{cases}
+\]
+Consequently
+\[
+  \E[X_{n+1}\mid\F_n]=a_n\frac{S_n}{n},
+\]
+so the ERW is a predictable linear reinforcement scheme. In this case the
+bracket has the explicit decomposition
+\[
+  V_n=Q_n-R_n,\qquad
+  Q_n=\sum_{k=1}^{n-1}\frac1{A_{k+1}^2},\qquad
+  R_n=\sum_{k=1}^{n-1}\frac{a_k^2S_k^2}{k^2A_{k+1}^2}.
+\]
+Thus the ERW phase diagram reduces to proving that \(R_n\) is negligible
+relative to the product-determined clock \(Q_n\).
+
+\begin{definition}[Admissible product--bracket geometry]\label{def:admissible}
+A predictable linear reinforcement scheme is called admissible on \([0,1]\) if
+\(V_n\to\infty\)
+in probability
+and there exist deterministic functions \(r,q:(0,1]\to\R\), with \(q\)
+nondecreasing and \(r(1)=q(1)=1\), such that for every \(\eta>0\),
+\[
+  \sup_{\eta\le t\le1}
+  \left|\frac{A_{\lfloor nt\rfloor}}{A_n}-r(t)\right|
+  \xrightarrow{\Pbb}0,
+  \qquad
+  \sup_{\eta\le t\le1}
+  \left|\frac{V_{\lfloor nt\rfloor}}{V_n}-q(t)\right|
+  \xrightarrow{\Pbb}0,
+\]
+\[
+  \max_{k\le n}\frac{|\Delta M_k|}{\sqrt{V_n}}\xrightarrow{\Pbb}0.
+\]
+It is called tight at the origin if, for every \(\delta>0\),
+\[
+  \lim_{\eta\downarrow0}\limsup_{n\to\infty}
+  \Pbb\left(
+  \sup_{0\le t\le\eta}
+  \frac{|S_{\lfloor nt\rfloor}|}{A_n\sqrt{V_n}}>\delta
+  \right)=0.
+\]
+\end{definition}
+
+\begin{remark}
+The definition is deliberately formulated in terms of \(A_n\) and \(V_n\), not
+in terms of a limiting coefficient \(a\). This is the point of the classification:
+the coefficient path is not itself the invariant. Two paths with the same limit
+may generate different products, and two paths with different local behaviour
+may nevertheless lie in the same product--bracket class.
+\end{remark}
+
+\section{The Classification Theorem}\label{sec:classification}
+
+\begin{theorem}[Master classification]\label{thm:classification}
+Let \((S_n)\) be a square-integrable predictable linear reinforcement scheme
+with bounded environment \((a_n)\).
+\begin{enumerate}
+  \item If the scheme is admissible and tight at the origin in the sense of
+  Definition~\ref{def:admissible}, and if the process
+  \(G(t)=r(t)B(q(t))\), \(t>0\), \(G(0)=0\), has a continuous version, then the
+  linearly interpolated walk satisfies
+  \[
+    \left(\frac{S_{\lfloor nt\rfloor}}{A_n\sqrt{V_n}}\right)_{0\le t\le1}
+    \Rightarrow
+    \bigl(G(t)\bigr)_{0\le t\le1}
+  \]
+  in \(C[0,1]\), where \(B\) is a standard Brownian motion.
+  \item If \(V_\infty=\lim_n V_n<\infty\) almost surely and
+  \(\E[V_\infty]<\infty\), then
+  \(M_n=S_n/A_n\) converges almost surely and in \(L^2\) to a finite random
+  variable \(M_\infty\). Consequently
+  \[
+    \frac{S_n}{A_n}\longrightarrow M_\infty
+    \qquad\text{almost surely and in }L^2.
+  \]
+\end{enumerate}
+\end{theorem}
+
+Thus every limit in the paper is obtained by identifying the asymptotic geometry
+of \(A_n\) and \(V_n\). The next result records the rigidity built into this
+classification.
+
+\begin{theorem}[Rigidity of the product--bracket geometry]\label{thm:rigidity}
+Consider two predictable linear reinforcement schemes \(e=1,2\), with canonical
+quantities \((A_n^{(e)},V_n^{(e)})\). Suppose both are admissible and tight at the origin,
+and
+\[
+  \frac{A_n^{(1)}}{A_n^{(2)}}\xrightarrow{\Pbb} c_A\in(0,\infty),
+  \qquad
+  \frac{V_n^{(1)}}{V_n^{(2)}}\xrightarrow{\Pbb} c_V\in(0,\infty),
+\]
+and that their local ratios have the same limits:
+\[
+  \frac{A_{\lfloor nt\rfloor}^{(e)}}{A_n^{(e)}}\xrightarrow{\Pbb} r(t),
+  \qquad
+  \frac{V_{\lfloor nt\rfloor}^{(e)}}{V_n^{(e)}}\xrightarrow{\Pbb} q(t),
+  \qquad e=1,2.
+\]
+Then both environments have the same functional limit after their own canonical
+normalisation. More precisely, if
+\[
+  G(t)=r(t)B(q(t)),\qquad t>0,\qquad G(0)=0,
+\]
+has a continuous version, then for \(e=1,2\),
+\[
+  \frac{S_{\lfloor nt\rfloor}^{(e)}}{A_n^{(e)}\sqrt{V_n^{(e)}}}
+  \Rightarrow G(t)
+  \qquad\text{in }C[0,1].
+\]
+In particular, the scaling limit is a function only of the product--bracket
+geometry \((r,q)\), not of the particular predictable rule that generated it.
+\end{theorem}
+
+\begin{remark}
+The theorem is not stated as a global if-and-only-if theorem. Without additional
+regularity, failure of product or bracket equivalence does not by itself specify
+which alternative limit appears. Section~\ref{sec:optimality} gives explicit
+families showing that the invariants are indispensable and identifies the
+controlled classes where converses are valid.
+\end{remark}
+
+\section{Martingale and Bracket Theory}\label{sec:proofs}
+
+\begin{lemma}[Exact martingale normalisation]\label{lem:martingale}
+The process \(M_n=S_n/A_n\) is a martingale with respect to \((\F_n)\), and
+\[
+  \Delta M_{n+1}
+  =
+  \frac{\xi_{n+1}-a_nS_n/n}{A_{n+1}}.
+\]
+\end{lemma}
+
+\begin{proof}
+By the defining drift condition,
+\[
+  \E[S_{n+1}\mid\F_n]
+  =S_n+a_n\frac{S_n}{n}
+  =\left(1+\frac{a_n}{n}\right)S_n.
+\]
+Dividing by \(A_{n+1}=A_n(1+a_n/n)\) gives
+\(\E[M_{n+1}\mid\F_n]=M_n\). The increment formula follows by subtracting
+\(M_n\).
+\end{proof}
+
+\begin{lemma}[ERW bracket decomposition]\label{lem:bracket-decomposition}
+For the predictable elephant random walk, for all \(n\ge1\),
+\[
+  \langle M\rangle_n
+  =
+  \sum_{k=1}^{n-1}
+  \frac{1-a_k^2S_k^2/k^2}{A_{k+1}^2}
+  =
+  Q_n-R_n.
+\]
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:martingale},
+\[
+  \E[(\Delta M_{k+1})^2\mid\F_k]
+  =
+  \frac{\E[(X_{k+1}-a_kS_k/k)^2\mid\F_k]}{A_{k+1}^2}.
+\]
+Since \(X_{k+1}^2=1\) and
+\(\E[X_{k+1}\mid\F_k]=a_kS_k/k\), the conditional variance equals
+\(1-a_k^2S_k^2/k^2\). Summation gives the formula.
+\end{proof}
+
+\begin{lemma}[ERW diffusive second moment bound]\label{lem:second-moment}
+For the predictable elephant random walk, if \(a_n\le \bar a<1/2\) for all
+\(n\), then
+\[
+  \sup_{n\ge1}\frac{\E[S_n^2]}{n}<\infty.
+\]
+\end{lemma}
+
+\begin{proof}
+Let \(W_n=\E[S_n^2]\). From the conditional drift,
+\[
+  \E[S_{n+1}^2\mid\F_n]
+  =
+  \left(1+\frac{2a_n}{n}\right)S_n^2+1
+  \le
+  \left(1+\frac{2\bar a}{n}\right)S_n^2+1.
+\]
+Iteration of this scalar recursion gives
+\[
+  W_n\le C n^{2\bar a}
+  \left(1+\sum_{k<n}k^{-2\bar a}\right)\le C n,
+\]
+because \(2\bar a<1\).
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:classification}]
+Assume first that the environment is admissible and tight at the origin. Fix
+\(\eta>0\). On \([\eta,1]\), the martingale
+\[
+  N_n(t)=\frac{M_{\lfloor nt\rfloor}-M_1}{\sqrt{V_n}}
+\]
+has jumps bounded by
+\[
+  \max_{k\le n}\frac{|\Delta M_k|}{\sqrt{V_n}},
+\]
+which tend to zero by admissibility. Its predictable bracket is
+\[
+  \langle N_n\rangle(t)
+  =
+  \frac{V_{\lfloor nt\rfloor}}{V_n}
+  \xrightarrow{\Pbb} q(t)
+  \qquad\text{uniformly for }\eta\le t\le1.
+\]
+The martingale functional central limit theorem
+\citep[Chapter 3]{hall1980martingale} yields
+\[
+  N_n\Rightarrow B(q(t))
+  \qquad\text{on }[\eta,1].
+\]
+Moreover \(A_nM_1/(A_n\sqrt{V_n})=M_1/\sqrt{V_n}\to0\), so
+\[
+  \frac{S_{\lfloor nt\rfloor}}{A_n\sqrt{V_n}}
+  =
+  \frac{A_{\lfloor nt\rfloor}}{A_n}
+  \frac{M_{\lfloor nt\rfloor}}{\sqrt{V_n}}
+  \Rightarrow r(t)B(q(t))
+  \qquad\text{on }[\eta,1]
+\]
+by the continuous mapping theorem. The tightness-at-the-origin condition makes
+the contribution of \(t\le\eta\) uniformly negligible after \(\eta\downarrow0\).
+Since the asserted limit has a continuous version with value \(0\) at the
+origin, convergence holds in \(C[0,1]\) for the linearly interpolated walk.
+
+If \(V_\infty<\infty\), then
+\[
+  \sup_n\E[M_n^2]
+  =
+  \E[M_1^2]+\sup_n\E[\langle M\rangle_n]
+  \le
+  \E[M_1^2]+\E[V_\infty]<\infty.
+\]
+The martingale convergence theorem gives \(M_n\to M_\infty\) almost surely and
+in \(L^2\).
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:rigidity}]
+Apply Theorem~\ref{thm:classification} to each environment. The hypotheses give
+the same limiting functions \(r\) and \(q\). The constants \(c_A\) and \(c_V\)
+change the canonical normalising constants but disappear because each walk is
+normalised by its own \(A_n^{(e)}\sqrt{V_n^{(e)}}\). Hence both limits are the
+same process \(r(t)B(q(t))\).
+\end{proof}
+
+\section{The Phase Diagram}\label{sec:regimes}
+
+\subsection{Diffusive environments}
+
+\begin{definition}[Uniform diffusive product regularity]\label{def:diff-reg}
+An environment is uniformly diffusive with exponent \(a<1/2\) if \(a_n\le\bar
+a<1/2\) and, for every \(\alpha>0\), there is a deterministic constant
+\(C_\alpha<\infty\) such that, with probability tending to one,
+\[
+  \frac{A_n}{A_k}\le C_\alpha\left(\frac{n}{k}\right)^{a+\alpha},
+  \qquad
+  \frac{A_k}{A_n}\le C_\alpha\left(\frac{k}{n}\right)^{a-\alpha}
+  \qquad(1\le k\le n).
+\]
+\end{definition}
+
+\begin{lemma}[Product classification below criticality]\label{lem:product-conv}
+For a deterministic environment, assume \(a_n\to a<1/2\), \(a_n\le\bar a<1/2\),
+and \(-1+\varepsilon\le a_n\le1-\varepsilon\). Then
+\[
+  A_n=n^a\ell_n,
+\]
+where \((\ell_n)\) is slowly varying:
+\[
+  \frac{\ell_{\lfloor nt\rfloor}}{\ell_n}\to1
+  \qquad(t>0).
+\]
+Consequently
+\[
+  Q_n\sim \frac{n}{(1-2a)A_n^2},
+  \qquad
+  A_n\sqrt{Q_n}\sim \sqrt{\frac{n}{1-2a}}.
+\]
+\end{lemma}
+
+\begin{proof}
+The identity
+\[
+  \log\frac{A_n}{n^a}
+  =
+  \sum_{k<n}\frac{a_k-a}{k}+O(1)
+\]
+has a summable Taylor remainder because \(a_k\) is bounded away from \(-1\).
+For fixed \(t>0\), the difference between the same expression at
+\(\lfloor nt\rfloor\) and at \(n\) is bounded by
+\[
+  \sup_{k\ge n(t\wedge1)/2}|a_k-a|
+  \sum_{k\asymp n}\frac1k+o(1),
+\]
+which tends to zero. Thus \(A_n/n^a\) is slowly varying. Karamata's theorem for
+regularly varying sequences gives
+\[
+  \sum_{k<n}\frac1{A_{k+1}^2}
+  \sim
+  \frac{n}{(1-2a)A_n^2}.
+\]
+\end{proof}
+
+\begin{corollary}[Diffusive ERW classification]\label{cor:diffusive}
+For the predictable elephant random walk, assume that \(A_n=n^a\ell_n\) with
+\(\ell_n\) slowly varying, that the
+environment is uniformly diffusive in the sense of Definition~\ref{def:diff-reg},
+and that \(a_n\le\bar a<1/2\). Then
+\[
+  \frac{S_n}{\sqrt n}\Rightarrow
+  \N\left(0,\frac1{1-2a}\right).
+\]
+If, in addition, the product ratios satisfy
+\[
+  \frac{A_{\lfloor nt\rfloor}}{A_n}\to t^a
+  \]
+locally uniformly on \((0,1]\), then the linearly interpolated process satisfies
+\[
+  \left(\frac{S_{\lfloor nt\rfloor}}{\sqrt n}\right)_{0\le t\le1}
+  \Rightarrow
+  \left(t^aB\left(\frac{t^{1-2a}}{1-2a}\right)\right)_{0\le t\le1}.
+\]
+\end{corollary}
+
+\begin{proof}
+Regular variation gives
+\(Q_n\sim n\{(1-2a)A_n^2\}^{-1}\) in probability. Let \(E_n\) be the
+high-probability event where the uniform product bounds hold. On \(E_n\), the
+self-interaction correction satisfies
+\[
+  \E\left[\frac{R_n}{Q_n}\1_{E_n}\right]
+  \le
+  C n^{2a+2\alpha-1}
+  \sum_{k<n}\frac{\E[S_k^2]}{k^{2a+2\alpha+2}}
+  \le
+  C n^{2a+2\alpha-1}
+  \sum_{k<n}k^{-2a-2\alpha-1}
+  \to0
+\]
+after choosing \(\alpha>0\) with \(a+\alpha<1/2\). Since \(0\le R_n/Q_n\le1\), this
+proves \(R_n/Q_n\to0\) in probability after adding the probability of the
+complementary event. The same estimate with upper limit \(\lfloor nt\rfloor\)
+gives
+\[
+  \sup_{\eta\le t\le1}\frac{R_{\lfloor nt\rfloor}}{Q_n}
+  \xrightarrow{\Pbb}0
+  \qquad(\eta>0).
+\]
+By Lemma~\ref{lem:bracket-decomposition}, \(V_n=Q_n-R_n\), so \(V_n/Q_n\to1\)
+in probability and the same local ratios hold for \(V\).
+Moreover,
+\[
+  \frac{Q_{\lfloor nt\rfloor}}{Q_n}\to t^{1-2a}
+\]
+locally uniformly on \((0,1]\), and the assumed product-ratio convergence gives
+\(r(t)=t^a\). The jump condition follows from
+\[
+  \max_{k\le n}\frac{|\Delta M_k|}{\sqrt{V_n}}
+  \le
+  2\max_{k\le n}\frac1{A_{k+1}\sqrt{V_n}}\xrightarrow{\Pbb}0.
+\]
+Finally, for \(m=\lfloor n\eta\rfloor\), Lemma~\ref{lem:second-moment} and
+Doob's inequality applied to the martingale \(M\) give
+\[
+  \E\left[
+  \sup_{0\le t\le\eta}
+  \left(\frac{S_{\lfloor nt\rfloor}}{A_n\sqrt{Q_n}}\right)^2
+  \right]
+  \le C\eta.
+\]
+Since \(V_n/Q_n\to1\) in probability, this gives tightness at the origin with
+the canonical denominator \(A_n\sqrt{V_n}\).
+Thus the environment is admissible and tight at the origin. Theorem
+\ref{thm:classification} yields the functional limit after canonical
+normalisation; multiplying by
+\(A_n\sqrt{V_n}/\sqrt n\to(1-2a)^{-1/2}\) in probability gives the stated CLT
+and FCLT.
+\end{proof}
+
+\subsection{Critical environments}
+
+\begin{corollary}[Critical ERW classification]\label{cor:critical}
+For the predictable elephant random walk, assume that there is a deterministic
+constant \(D_c<\infty\) such that
+\[
+  \sum_{n=1}^{\infty}\frac{|a_n-1/2|}{n}\le D_c,
+  \qquad a_n\le\frac12,
+\]
+and \(-1+\varepsilon\le a_n\le1-\varepsilon\). Then
+\[
+  A_n=L n^{1/2}(1+o(1))
+  \quad\text{for some }L\in(0,\infty),
+  \qquad
+  Q_n\sim L^{-2}\log n.
+\]
+Consequently
+\[
+  \frac{S_n}{\sqrt{n\log n}}\Rightarrow \N(0,1),
+\]
+and the linearly interpolated process satisfies
+\[
+  \left(\frac{S_{\lfloor nt\rfloor}}{\sqrt{n\log n}}\right)_{0\le t\le1}
+  \Rightarrow
+  \left(\sqrt t\,N\right)_{0\le t\le1}
+  \quad\text{in }C[0,1],
+\]
+where \(N\sim\N(0,1)\).
+\end{corollary}
+
+\begin{proof}
+The product estimate is the logarithmic analogue of
+Lemma~\ref{lem:product-conv}; the summability assumption makes
+\(A_n/n^{1/2}\) converge to a finite positive limit. Hence
+\[
+  Q_n=\sum_{k<n}A_{k+1}^{-2}\sim L^{-2}\log n.
+\]
+The second moment recursion gives \(E[S_n^2]\le Cn\log n\). Therefore
+\[
+  \E\left[\frac{R_n}{Q_n}\right]
+  \le
+  \frac{C}{\log n}\sum_{k<n}\frac{\log k}{k^2}\to0.
+\]
+For every \(\eta>0\), uniformly for \(t\in[\eta,1]\),
+\[
+  \frac{A_{\lfloor nt\rfloor}}{A_n}\to\sqrt t,
+  \qquad
+  \frac{Q_{\lfloor nt\rfloor}}{Q_n}\to1.
+\]
+By Lemma~\ref{lem:bracket-decomposition}, \(V_n/Q_n\to1\) in probability and the
+same local bracket ratios hold for \(V\).
+The jump condition follows from
+\[
+  \max_{k\le n}\frac{|\Delta M_k|}{\sqrt{V_n}}
+  \le \frac{C}{\sqrt{\log n}}\to0,
+\]
+and the preceding estimate on \(R_n/Q_n\) also holds uniformly on
+\([\eta,1]\). The origin condition is
+\[
+  \E\left[\sup_{0\le t\le\eta}
+  \left(\frac{S_{\lfloor nt\rfloor}}{\sqrt{n\log n}}\right)^2\right]
+  \le C\eta\frac{\log(n\eta+2)}{\log n}.
+\]
+Since \(A_n\sqrt{V_n}\sim\sqrt{n\log n}\) in probability, this is exactly the tightness at the
+origin required by Definition~\ref{def:admissible}. The limiting process is
+\(G(t)=\sqrt t\,B(1)\), with \(G(0)=0\), which is continuous. Theorem
+\ref{thm:classification} completes the proof.
+\end{proof}
+
+\subsection{Superdiffusive environments}
+
+\begin{corollary}[Superdiffusive ERW classification]\label{cor:super}
+For the predictable elephant random walk, if \(a_n\to a>1/2\) and there is a
+deterministic constant \(D_s<\infty\) such
+that
+\[
+  \sum_{n=1}^\infty \frac{|a_n-a|}{n}\le D_s,
+\]
+then \(A_n=L n^a(1+o(1))\) for some \(L\in(0,\infty)\), \(V_\infty<\infty\),
+and
+\[
+  \frac{S_n}{n^a}\longrightarrow L M_\infty
+  \qquad\text{almost surely and in }L^2.
+\]
+\end{corollary}
+
+\begin{proof}
+The product estimate gives \(A_n=L n^a(1+o(1))\). The deterministic bound
+\(\sum |a_n-a|/n\le D_s\), together with the bounded Taylor remainders in
+\(\log(1+a_n/n)\), also gives a deterministic lower bound
+\[
+  A_n\ge c n^a
+  \qquad(n\ge1)
+\]
+for some \(c>0\). Hence
+\[
+  Q_\infty\le c^{-2}\sum_{n\ge1}n^{-2a}<\infty
+\]
+deterministically. Since \(V_n\le Q_n\), also \(V_\infty<\infty\) and
+\(\E[V_\infty]<\infty\). The finite-bracket part of
+Theorem~\ref{thm:classification} applies.
+\end{proof}
+
+\section{Why the Classification Is Optimal}\label{sec:optimality}
+
+\begin{proposition}[Regularly varying ERW clock diagram]\label{prop:rv-phase}
+For the predictable elephant random walk, suppose that the product of a bounded
+environment satisfies
+\[
+  A_n\sim C n^\alpha L(n),
+\]
+where \(C\in(0,\infty)\), \(L\) is slowly varying, and the self-interaction
+correction is negligible whenever \(Q_n\to\infty\). Then the product clock
+\(Q_n=\sum_{k<n}A_{k+1}^{-2}\), and hence the ERW bracket whenever
+\(R_n=o(Q_n)\), has the following three regimes.
+\begin{enumerate}
+  \item If \(\alpha<1/2\), then
+  \[
+    Q_n\sim \frac{n}{(1-2\alpha)A_n^2},
+    \qquad
+    A_n\sqrt{Q_n}\sim\sqrt{\frac{n}{1-2\alpha}},
+  \]
+  so the canonical Gaussian scale is diffusive.
+  \item If \(\alpha=1/2\), then
+  \[
+    Q_n\sim C^{-2}\sum_{k<n}\frac1{kL(k)^2}.
+  \]
+  The critical normalisation is therefore determined by the slowly varying
+  integral, not by the exponent alone.
+  \item If \(\alpha>1/2\), then \(Q_\infty<\infty\), and the walk is in the
+  finite-bracket martingale regime.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+This is Karamata's theorem applied to
+\(A_{k+1}^{-2}\sim C^{-2}k^{-2\alpha}L(k)^{-2}\). The cases
+\(\alpha<1/2\), \(\alpha=1/2\), and \(\alpha>1/2\) correspond respectively to a
+divergent power sum, a borderline slowly varying sum, and a convergent sum. The
+classification theorem then translates these bracket alternatives into the
+corresponding limit regimes.
+\end{proof}
+
+\begin{proposition}[Coefficient convergence does not classify products]\label{prop:slow}
+Fix \(a<1/2\) and \(c\in\R\). The deterministic environment
+\[
+  a_n=a+\frac{c}{\log(n+2)}
+\]
+can be chosen bounded away from \(-1\) and \(1\), satisfies \(a_n\to a\), and
+\[
+  A_n\sim C_c n^a(\log n)^c
+  \qquad\text{for some }C_c\in(0,\infty).
+\]
+Thus the limiting coefficient \(a\) does not determine the martingale
+normalisation.
+\end{proposition}
+
+\begin{proof}
+The Taylor expansion of the logarithm gives
+\[
+  \log A_n
+  =
+  \sum_{k<n}\frac{a}{k}
+  +c\sum_{k<n}\frac1{k\log(k+2)}
+  +O(1)
+  =
+  a\log n+c\log\log n+O(1).
+\]
+Exponentiating proves the claim.
+\end{proof}
+
+\begin{proposition}[Different invariants give different canonical laws]\label{prop:different}
+Let \(a<1/2\). For the constant environment \(a_n\equiv a\) and the slow
+environment \(a_n=a+c/\log(n+2)\), \(c\ne0\), the terminal diffusive CLT has the
+same variance \((1-2a)^{-1}\), but the canonical martingale normalisations differ
+by the factor \((\log n)^c\). Hence no classification based only on the limiting
+coefficient can be pathwise complete.
+\end{proposition}
+
+\begin{proof}
+Both environments satisfy Lemma~\ref{lem:product-conv}, so
+Corollary~\ref{cor:diffusive} gives the same terminal CLT. Proposition
+\ref{prop:slow} shows that their products are not asymptotically equivalent
+unless \(c=0\). Since \(S_n=A_nM_n\), the martingale-scale description retains
+this distinction even when the terminal \(\sqrt n\)-CLT does not.
+\end{proof}
+
+\begin{proposition}[Logarithmic critical trichotomy]\label{prop:critical-window}
+Let
+\[
+  a_n=\frac12+\frac{c}{\log(n+2)}
+\]
+for all large \(n\). Then
+\[
+  A_n\sim C n^{1/2}(\log n)^c.
+\]
+Consequently the bracket scale is
+\[
+  Q_n\asymp
+  \begin{cases}
+    (\log n)^{1-2c}, & c<1/2,\\
+    \log\log n, & c=1/2,\\
+    1, & c>1/2.
+  \end{cases}
+\]
+Consequently the canonical normalisation \(A_n\sqrt{Q_n}\) has the following
+orders:
+\[
+  A_n\sqrt{Q_n}\asymp
+  \begin{cases}
+    \sqrt{n\log n}, & c<1/2,\\
+    \sqrt{n\log n\log\log n}, & c=1/2,\\
+    \sqrt n(\log n)^c, & c>1/2.
+  \end{cases}
+\]
+Thus the boundary is not determined by the pointwise limit \(a_n\to1/2\), but by
+the product--bracket geometry; the same limiting coefficient produces diffusive
+logarithmic scaling, iterated-logarithmic critical scaling, or finite-bracket
+supercritical behaviour according to the value of \(c\).
+\end{proposition}
+
+\begin{proof}
+The product asymptotic is the calculation of Proposition~\ref{prop:slow} with
+\(a=1/2\). The displayed alternatives follow from the integral test applied to
+\[
+  Q_n\sim C^{-2}\sum_{k<n}\frac1{k(\log k)^{2c}}.
+\]
+Multiplying these estimates by \(A_n^2\sim C^2n(\log n)^{2c}\) gives the
+orders of \(A_n\sqrt{Q_n}\).
+\end{proof}
+
+\begin{remark}
+These examples are deliberately deterministic. They show that the obstruction is
+not caused by random learning noise or measurability subtleties. It is already
+present in the product geometry of the simplest predictable environments.
+\end{remark}
+
+\section{Examples of Predictable Environments}\label{sec:examples}
+
+Learning rules are not part of the main theory; they are sources of predictable
+environments. The classification theorem applies once the product and bracket
+geometry has been identified.
+
+\begin{proposition}[Lipschitz policy maps]\label{prop:lipschitz}
+Let \(\theta_n\) be \(\F_n\)-measurable, let
+\(\ell:\R^d\to(\varepsilon,1-\varepsilon)\) be Lipschitz, and put
+\[
+  p_n=\ell(\theta_n),\qquad a_n=2p_n-1.
+\]
+If \(\theta_n\to\theta_\star\) almost surely, \(a=2\ell(\theta_\star)-1<1/2\),
+\(a_n\le\bar a<1/2\), and the induced product is uniformly diffusive in the
+sense of Definition~\ref{def:diff-reg}, then the diffusive classification
+applies. If there is a deterministic constant \(D_\theta<\infty\) such that
+\[
+  \sum_{n=1}^\infty \frac{\|\theta_n-\theta_\star\|}{n}\le D_\theta,
+\]
+then the corresponding stable diffusive, critical or superdiffusive product
+asymptotics follow according to the value of \(a\).
+\end{proposition}
+
+\begin{proof}
+Lipschitz continuity gives
+\[
+  |a_n-a|\le 2\,\operatorname{Lip}(\ell)\|\theta_n-\theta_\star\|.
+\]
+The claims are direct applications of the phase diagram.
+\end{proof}
+
+\begin{remark}[On regret and stochastic approximation]
+Algorithms such as projected stochastic approximation, confidence-bound
+procedures, exponential weights or posterior sampling enter the present theory
+only after they have been proved to generate a predictable coefficient path with
+one of the product--bracket geometries above. The paper does not use regret as a
+black box and does not claim a universal theorem for these algorithms.
+\end{remark}
+
+\begin{remark}[Numerical diagnostics]
+The accompanying scripts reproduce finite-sample checks for the diffusive,
+critical, superdiffusive and slowly varying regimes. These computations are not
+used as evidence for the theorems; they are retained only to make the examples
+and normalisations reproducible.
+\end{remark}
+
+\section{Discussion and Open Problems}\label{sec:open}
+
+The classification suggests several problems beyond the scalar predictable
+environment treated here.
+
+\paragraph{Multidimensional predictable environments.}
+For walks on \(\mathbb Z^d\) with increments taking values among the coordinate
+directions and their opposites, the same scalar product \(A_n\) normalises the
+conditional drift whenever
+\(\E[X_{n+1}\mid\F_n]=a_nS_n/n\). The remaining issue is the limiting
+directional covariance of the martingale increments. A complete vector
+classification should combine the scalar product--bracket geometry with a
+matrix-valued covariance invariant.
+
+\paragraph{Continuous-time analogues.}
+The product \(A_n\) is the discrete solution of a logarithmic-time linear
+equation. Continuous-time memory processes should lead to multiplicative
+functionals of predictable drift environments and bracket clocks of the same
+kind.
+
+\paragraph{Random memory kernels.}
+The present paper keeps the recalled time uniform and puts all randomness in the
+repeat--reverse environment. If the recall kernel itself becomes predictable,
+the conditional drift is no longer \(a_nS_n/n\). Identifying the right invariants
+for that problem would extend the classification beyond scalar products.
+
+\paragraph{Quenched and annealed universality.}
+The results here are pathwise in the realised predictable environment. A more
+ambitious theory would distinguish quenched limits conditional on an external
+environment from annealed limits when the environment has its own dynamics.
+Feedback environments, where \(a_n\) is generated from the walk itself, are the
+main obstruction to a direct random-media analogy.
+
+\paragraph{Reinforced and self-interacting models.}
+The product--bracket mechanism may also appear in reinforced walks or adaptive
+urns after linearisation around a stable direction. The open question is whether
+there is a broader martingale classification principle behind these models, or
+whether the complete-memory ERW is a special solvable case.
+
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\end{document}

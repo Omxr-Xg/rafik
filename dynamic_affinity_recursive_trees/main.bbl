@@ -1,0 +1,58 @@
+\begin{thebibliography}{}
+
+\bibitem[Bergeron et~al., 1992]{bergeron1992}
+Bergeron, F., Flajolet, P., and Salvy, B. (1992).
+\newblock Varieties of increasing trees.
+\newblock In {\em Lecture Notes in Computer Science}, volume 581, pages 24--48,
+  Berlin. Springer.
+
+\bibitem[Drmota, 2009]{drmota2009}
+Drmota, M. (2009).
+\newblock {\em Random Trees: An Interplay Between Combinatorics and
+  Probability}.
+\newblock Springer-Verlag, Vienna.
+
+\bibitem[Frieze and Karo{\'n}ski, 2016]{frieze2016}
+Frieze, A. and Karo{\'n}ski, M. (2016).
+\newblock {\em Introduction to Random Graphs}.
+\newblock Cambridge University Press, Cambridge, 2 edition.
+
+\bibitem[Gastwirth and Bhattacharya, 1984]{gastwirth1984}
+Gastwirth, J. and Bhattacharya, P. (1984).
+\newblock Two probability models of pyramid or chain letter schemes
+  demonstrating that their promotional claims are unreliable.
+\newblock {\em Operations Research}, 32:527--536.
+
+\bibitem[Hofri and Mahmoud, 2018]{hofri2018}
+Hofri, M. and Mahmoud, H. (2018).
+\newblock {\em Algorithmics of Nonuniformity: Tools and Paradigms}.
+\newblock CRC Press, Boca Raton.
+
+\bibitem[Lyon and Mahmoud, 2020]{lyon2020}
+Lyon, M. and Mahmoud, H. (2020).
+\newblock Trees grown under young-age preferential attachment.
+\newblock {\em Journal of Applied Probability}, 57:911--927.
+
+\bibitem[Lyon and Mahmoud, 2022]{lyon2022}
+Lyon, M. and Mahmoud, H. (2022).
+\newblock Insertion depth in power-weight trees.
+\newblock {\em Information Processing Letters}, 176:106227.
+
+\bibitem[Najock and Heyde, 1982]{najock1982}
+Najock, D. and Heyde, C. (1982).
+\newblock On the number of terminal vertices in certain random trees with an
+  application to stemma construction in philology.
+\newblock {\em Journal of Applied Probability}, 19:675--680.
+
+\bibitem[Nakata and Mahmoud, 2024]{nakata2024}
+Nakata, T. and Mahmoud, H. (2024).
+\newblock Bernoulli convolution of the depth of nodes in recursive trees with
+  generalized affinities.
+\newblock Under review.
+
+\bibitem[Smythe and Mahmoud, 1995]{smythe1995}
+Smythe, R.~T. and Mahmoud, H. (1995).
+\newblock A survey of recursive trees.
+\newblock {\em Theory of Probability and Mathematical Statistics}, 51:1--27.
+
+\end{thebibliography}
